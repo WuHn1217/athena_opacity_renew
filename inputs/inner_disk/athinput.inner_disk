@@ -1,0 +1,108 @@
+<comment>
+problem   = Radiation transfer, opacity table, solar radiation
+configure = --prob=inner_disk --coord=spherical_polar
+
+<job>
+problem_id  = disk                    # problem ID: basename of output filenames
+
+<output1>
+file_type   = hdf5                    # hdf5 data dump
+variable    = prim
+dt          = 0.1
+
+<output2>
+file_type   = hst                     # History data dump
+dt          = 0.01
+
+<output3>
+file_type   = rst                     # Restart data dump
+dt          = 10.0
+
+<output4>
+file_type   = hdf5
+dt          = 0.1
+variable    = uov
+
+<time>
+cfl_number  = 0.1                     # The Courant, Friedrichs, & Lewy (CFL) Number
+nlim        = -1                      # cycle limit
+tlim        = 1.0                     # time limit
+integrator  = rk2                     # time integration algorithm
+xorder      = 2                       # order of spatial reconstruction
+ncycle_out  = 1                       # interval for stdout summary info
+
+<mesh>
+nx1         = 512                     # Number of zones in X1-direction
+x1min       = 1                       # minimum value of X1
+x1max       = 100                     # maximum value of X1
+ix1_bc      = user                    # Inner-X1 boundary condition flag
+ox1_bc      = user                    # Outer-X1 boundary condition flag
+x1rat       = 1.004507                # non-uniform grid ratio 1.004507
+
+nx2         = 48                      # Number of zones in X2-direction
+x2min       = 1.370796                # minimum value of X2
+x2max       = 1.770796                # maximum value of X2
+ix2_bc      = user                    # Inner-X2 boundary condition flag
+ox2_bc      = user                    # Outer-X2 boundary condition flag
+
+nx3         = 1                       # Number of zones in X3-direction
+x3min       = 0.0                     # minimum value of X3
+x3max       = 6.2831853071795862      # maximum value of X3
+ix3_bc      = periodic                # Inner-X3 boundary condition flag
+ox3_bc      = periodic                # Outer-X3 boundary condition flag
+
+refinement  = None
+
+<meshblock>
+nx1 = 128
+nx2 = 24
+nx3 = 1
+
+<hydro>
+gamma             = 1.66666667
+dfloor            = 1.e-7
+# pfloor            = 1.e-20
+
+<orbital_advection>
+OAorder           = 0                 # 0: w/o OA, 1: w/ OA (1st), 2: w/ OA (2nd)
+Omega0            = 0.0               # angular velocity of the system
+
+<radiation>
+cfl_rad           = 0.1               # CFL No. for implicit radiation step
+unit              = 1
+T_unit            = 1.227e7           # T calculated by cs which is vel at r0
+density_unit      = 4.4445e-23        # rho at r0 in cgs
+length_unit       = 2.99195e11        # r0 = 0.02 AU in cgs
+molecular_weight  = 2.3
+source_flag       = 2                 # do not heat (0) or heat (1/2) the gas
+angle_flag        = 1
+polar_angle       = 1                 # = 1 then set the radial angle
+reduced_factor    = 1e-2              # Reduced (fraction of) speed of light
+nmu               = 1
+nzeta             = 4                 # no. of polar angles (0 to pi/2)
+npsi              = 2                 # no. of azimuthal angles (0 to pi)
+n_frequency       = 17                # no. of frequency groups
+frequency_min     = 4.0979e+11        # in Hz
+frequency_max     = 4.0979e+16        # in Hz
+n_temperature     = 300               # no. of temperature groups
+n_density         = 300               # no. of density groups
+# user_fre          = 1                 # = 1 then use user defined frequency table
+error_limit       = 1.e-5
+nlimit            = 1000
+# taucell           = 5
+iterative_tgas    = 10
+
+<problem>
+GM                = 0.0
+gm0               = 1.0
+r0                = 1.0
+rho0              = 1.0
+p0_over_r0        = 9e-4              # h**2 at r0
+pslope            = -0.75             # pressure power-law index
+dslope            = -2.125            # density power-law index
+nu_iso            = 0
+alpha             = 0
+opacity           = 1.0               # initial opacity, in cgs
+tceil             = 1e5               # in cgs
+rstar             = 1.39268e11        # 2 solar radii, in cgs
+tstar             = 5500              # in cgs

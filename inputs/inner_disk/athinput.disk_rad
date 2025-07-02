@@ -1,0 +1,103 @@
+<comment>
+problem   = Keplerian disk in spherical polar coordinates
+reference = 
+configure = --prob=disk_rad --coord=spherical_polar
+
+<job>
+problem_id  = disk       # problem ID: basename of output filenames
+
+<output1>
+file_type   = hdf5       # hdf5 data dump
+variable    = prim
+dt          = 10.0
+# ghost_zones = true
+
+<output2>
+file_type   = hst        # History data dump
+dt          = 0.01
+
+<output3>
+file_type   = rst        # Restart data dump
+dt          = 50.0
+
+#<output4>
+#file_type   = hdf5       # user output
+#variable    = uov
+#dt          = 0.1
+
+<time>
+cfl_number  = 0.3       # The Courant, Friedrichs, & Lewy (CFL) Number
+nlim        = -1        # cycle limit
+tlim        = 100       # time limit
+integrator  = rk2       # time integration algorithm
+xorder      = 2         # order of spatial reconstruction
+ncycle_out  = 1         # interval for stdout summary info
+
+<mesh>
+nx1         = 100       # Number of zones in X1-direction 494
+x1min       = 1         # minimum value of X1
+x1max       = 50        # maximum value of X1
+ix1_bc      = user      # Inner-X1 boundary condition flag
+ox1_bc      = user      # Outer-X1 boundary condition flag
+x1rat       = 1.0398955 # non-uniform grid ratio 1.004672
+
+nx2         = 30        # Number of zones in X2-direction 86
+x2min       = 1.370796327  # minimum value of X2 0
+x2max       = 1.770796327  # maximum value of X2 3.141592653589793
+ix2_bc      = user      # Inner-X2 boundary condition flag
+ox2_bc      = user      # Outer-X2 boundary condition flag
+
+nx3         = 1              # Number of zones in X3-direction
+x3min       = 0.0            # minimum value of X3
+x3max       = 6.2831853071795862  # maximum value of X3  
+ix3_bc      = periodic       # Inner-X3 boundary condition flag
+ox3_bc      = periodic       # Outer-X3 boundary condition flag
+
+refinement  = None
+
+<meshblock>
+nx1 = 50
+nx2 = 15
+nx3 = 1
+
+<hydro>
+gamma             = 1.66666667
+dfloor            = 1.e-12
+# pfloor            = 1.e-20
+
+<orbital_advection>
+OAorder           = 0   # 0: w/o OA, 1: w/ OA (1st), 2: w/ OA (2nd)
+Omega0            = 0.0 # angular velocity of the system
+
+<radiation>
+unit              = 1
+T_unit            = 1.227e7     # T calculated by GM, l_unit; T at r0 in cgs = 854.488
+density_unit      = 6.163e-15   # rho at r0 in cgs
+length_unit       = 2.99195e11  # r0=0.02AU in cgs
+molecular_weight  = 2.3
+source_flag       = 2
+angle_flag        = 1
+polar_angle       = 1
+nmu               = 1
+nzeta             = 4           # no. of polar angles (0 to pi/2)
+npsi              = 2           # no. of azimuthal angles (0 to pi)
+n_frequency       = 1           # no. of frequency groups
+reduced_factor    = 1e-2        # Reduced (fraction of) speed of light
+error_limit       = 1e-5
+# taucell           = 5
+nlimit            = 1000
+
+<problem>
+GM          = 0.0
+gm0         = 1.0
+r0          = 1.0
+rho0        = 1.0
+p0_over_r0  = 1.7427e-4         #h**2 at r0  3.4674e-4
+pslope      = -0.75
+dslope      = -1.875
+nu_iso      = 0
+alpha       = 0
+opacity     = 1.0               # in cgs
+tceil       = 1e6       # in cgs
+rstar       = 1.39268e11  # 2 solar radii, in cgs
+tstar       = 5500        # in cgs
